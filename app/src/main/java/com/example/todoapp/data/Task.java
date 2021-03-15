@@ -1,4 +1,4 @@
-package com.example.todoapp;
+package com.example.todoapp.data;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -11,9 +11,8 @@ import java.util.Date;
 @Entity(tableName = "tasks")
 public class Task {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
-
     private int id;
     @NonNull
     private String title;
