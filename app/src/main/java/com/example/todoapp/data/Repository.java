@@ -46,4 +46,15 @@ public class Repository {
         });
 
     }
+
+    public void  addTask(Task task){
+
+        AppDatabase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                dao.insert(task);
+            }
+        });
+
+    }
 }

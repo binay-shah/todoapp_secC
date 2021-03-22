@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         addButton = findViewById(R.id.add_btn);
+        
         addButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
