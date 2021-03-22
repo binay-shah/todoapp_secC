@@ -1,6 +1,9 @@
 package com.example.todoapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -21,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private RecyclerView recyclerView;
     private TaskAdapter adapter;
-    private Repository repository;
+    private MainViewModel viewModel;
     private FloatingActionButton addButton;
+    List<Task> tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +34,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.task_list);
+        adapter = new TaskAdapter();
 
-        repository = Repository.getRepository(this.getApplication());
-        List<Task> tasks = repository.getALlTasks();
-        adapter = new TaskAdapter(tasks);
+//        repository = Repository.getRepository(this.getApplication());
+//         tasks = repository.getALlTasks();
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(List<Task> tasks) {
+                if(tasks != null)
+                    adapter.setData(tasks);
+            }
+        });
+        //adapter = new TaskAdapter(tasks);
         recyclerView.setAdapter(adapter);
 
         addButton = findViewById(R.id.add_btn);
@@ -47,4 +60,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        tasks = viewModel.getAllTasks();
+//        adapter.setData(tasks);
+//    }
 }
